@@ -1,0 +1,51 @@
+Staff ID,Name,Gender,IAEA Profession,Nationality,iso_alpha,Academic,Pre-IAEA Work Experience,Generational
+1001,John Smith,Male,Inspectors,United States,USA,Nuclear Engineer,Nuclear Energy,Generation X
+1002,Alice Johnson,Female,Information Technology,Canada,CAN,Computer Science,Government,Millennials
+1003,Mohammed Al-Farsi,Male,Laboratory Specialists,Saudi Arabia,SAU,Chemistry,Academia,Generation Z
+1004,Anna Müller,Female,Information Analysts,Germany,DEU,Information Science,NGO,Baby Boomers
+1005,Juan Perez,Male,Policy&Management Coordination,Spain,ESP,Int'l Relations,Health,Generation X
+1006,Chen Wei,Male,Inspectors,China,CHN,Nuclear Physics,Nuclear Energy,Generation Z
+1007,Emily Brown,Female,Information Technology,United Kingdom,GBR,Computer Engineering,Government,Millennials
+1008,Ravi Patel,Male,Laboratory Specialists,India,IND,Chemical Engineering,Academia,Generation Y
+1009,Maria Santos,Female,Information Analysts,Brazil,BRA,Library Science,NGO,Baby Boomers
+1010,Mustafa Hassan,Male,Policy&Management Coordination,Egypt,EGY,Political Science,Government,Generation X
+1011,Sophie Dupont,Female,Inspectors,France,FRA,Nuclear Engineering,Nuclear Energy,Millennials
+1012,Kim Min-ji,Female,Information Technology,South Korea,KOR,Software Engineering,Health,Generation Z
+1013,Alexander Ivanov,Male,Laboratory Specialists,Russia,RUS,Biochemistry,Academia,Generation X
+1014,Li Wei,Female,Information Analysts,China,CHN,Data Science,NGO,Generation Y
+1015,Lisa Müller,Female,Policy&Management Coordination,Germany,DEU,Public Policy,Government,Baby Boomers
+1016,Antonio Lopez,Male,Inspectors,Spain,ESP,Physics,Nuclear Energy,Generation X
+1017,Emily Johnson,Female,Information Technology,United States,USA,Computer Science,Health,Generation Z
+1018,Rahul Singh,Male,Laboratory Specialists,India,IND,Biotechnology,Academia,Generation Y
+1019,Ana Silva,Female,Information Analysts,Brazil,BRA,Information Systems,NGO,Generation X
+1020,Ahmed Mahmoud,Male,Policy&Management Coordination,Egypt,EGY,Management,Government,Millennials
+1021,Sarah Dubois,Female,Inspectors,France,FRA,Nuclear Physics,Nuclear Energy,Baby Boomers
+1022,Park Joon-ho,Male,Information Technology,South Korea,KOR,Information Technology,NGO,Generation Z
+1023,Ivan Petrov,Male,Laboratory Specialists,Russia,RUS,Chemistry,Academia,Generation Y
+1024,Wang Lei,Male,Information Analysts,China,CHN,Computer Engineering,Health,Generation X
+1025,Maria Garcia,Female,Policy&Management Coordination,Spain,ESP,Economics,Government,Generation Z
+1026,David Miller,Male,Inspectors,United States,USA,Nuclear Engineering,Nuclear Energy,Generation Y
+1027,Lucia Costa,Female,Information Technology,Portugal,PRT,Computer Science,NGO,Generation X
+1028,Sandeep Kumar,Male,Laboratory Specialists,India,IND,Chemistry,Health,Millennials
+1029,Carla Rodriguez,Female,Information Analysts,Brazil,BRA,Library Science,Academia,Generation Z
+1030,Khalid Ibrahim,Male,Policy&Management Coordination,Egypt,EGY,Public Administration,Government,Generation Y
+1031,Elena Dubrovna,Female,Inspectors,Russia,RUS,Nuclear Physics,Nuclear Energy,Generation X
+1032,Liu Hui,Male,Information Technology,China,CHN,Software Engineering,NGO,Generation Z
+1033,Emma Smith,Female,Laboratory Specialists,United Kingdom,GBR,Biology,Academia,Generation Y
+1034,Ravi Patel,Male,Information Analysts,India,IND,Data Science,Health,Generation X
+1035,Ana Santos,Female,Policy&Management Coordination,Brazil,BRA,Public Policy,Government,Generation Z
+1036,Ahmed Hassan,Male,Inspectors,Egypt,EGY,Political Science,Nuclear Energy,Generation Y
+1037,Sophie Leroux,Female,Information Technology,France,FRA,Computer Engineering,NGO,Generation X
+1038,Chen Wei,Male,Laboratory Specialists,China,CHN,Chemical Engineering,Academia,Millennials
+1039,Olga Ivanova,Female,Information Analysts,Russia,RUS,Information Systems,NGO,Generation Z
+1040,Li Ming,Male,Policy&Management Coordination,China,CHN,Management,Government,Generation Y
+1041,Lucas Silva,Male,Inspectors,Brazil,BRA,Nuclear Physics,Nuclear Energy,Generation X
+1042,Jung Eun-ji,Female,Information Technology,South Korea,KOR,Information Technology,Health,Millennials
+1043,Sergei Petrov,Male,Laboratory Specialists,Russia,RUS,Biochemistry,NGO,Generation Z
+1044,Wang Fang,Male,Information Analysts,China,CHN,Computer Engineering,Academia,Generation Y
+1045,Andrea Lopez,Female,Policy&Management Coordination,Spain,ESP,Economics,Government,Generation X
+1046,Michael Brown,Male,Inspectors,United States,USA,Nuclear Engineering,Nuclear Energy,Millennials
+1047,Marta Costa,Female,Information Technology,Portugal,PRT,Computer Science,Health,Generation Z
+1048,Rajesh Kumar,Male,Laboratory Specialists,India,IND,Chemistry,Academia,Generation Y
+1049,Juliana Rodriguez,Female,Information Analysts,Brazil,BRA,Library Science,NGO,Generation X
+1050,Yousef Ahmed,Male,Policy&Management Coordination,Egypt,EGY,Public Administration,Government,Generation Z
