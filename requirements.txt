@@ -2,3 +2,4 @@ streamlit
 pandas
 altair
 plotly
+streamlit_shadcn_ui
