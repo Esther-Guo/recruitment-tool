@@ -4,8 +4,9 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import plotly.express as px
-# import streamlit_shadcn_ui as ui
+import streamlit_shadcn_ui as ui
 import plotly.graph_objects as go
+from local_components import card_container
 
 #######################
 # Page configuration
@@ -20,7 +21,6 @@ alt.themes.enable("dark")
 
 #######################
 # Load data
-df_reshaped = pd.read_csv('data/us-population-2010-2019-reshaped.csv')
 df_overview = pd.read_csv('data/staff-info.csv')
 
 
@@ -50,16 +50,74 @@ with st.sidebar:
     if academic_filter != default_option:
         filtered_data = filtered_data[filtered_data['Academic'] == academic_filter]
 
+    filtered_data = filtered_data.reset_index(drop=True)
+
 
 st.title('🏂 IAEA Department of Safeguards Dashboard')
 
-# ui.tabs(options=['PyGWalker', 'Graphic Walker', 'GWalkR', 'RATH'], default_value='PyGWalker', key="kanaries")
-
-selected_year = 2019
-df_selected_year = df_reshaped[df_reshaped.year == selected_year]
-df_selected_year_sorted = df_selected_year.sort_values(by="population", ascending=False)
-
 selected_color_theme = 'blues'
+
+######################
+# Tabs
+tabValue = ui.tabs(options=['Diversity', 'Nationality', 'Pre-IAEA Work Experience', 'Detail'], default_value='Diversity', key="kanaries")
+
+st.write("Selected:", tabValue)
+if tabValue == "Detail":
+
+    cols = st.columns((1, 2, 2, 1))
+    fields = ["Staff ID", 'Name', 'IAEA Profession', "Action"]
+    for col, field_name in zip(cols, fields):
+        # header
+        col.write(field_name)
+
+    for idx, staffId in enumerate(filtered_data["Staff ID"]):
+        col1, col2, col3, col4 = st.columns((1, 2, 2, 1))
+        col1.write(staffId)
+        col2.write(filtered_data["Name"][idx])
+        col3.write(filtered_data["IAEA Profession"][idx])
+        btn_placeholder = col4.empty()
+        clicked = btn_placeholder.button(label="See Profile", key=staffId)
+        if clicked:
+            card_template = """
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                        <div class="card text-white bg-dark mb-3" >
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src="{}" class="w-50 m-5" alt="avatar">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{}({})</h5>
+                                        <p class="font-italic">{}</p>
+                                        <p class="card-text"><span class=" font-weight-bold">Nationality:</span> {}</p>
+                                        <p class="card-text"><strong>Pre IAEA Background:</strong> {}</p>
+                                        <p class="card-text">{}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            """
+            gender_text = "She/her"
+            avartar_url = "https://avatar.iran.liara.run/public/girl"
+            if filtered_data["Gender"][idx] == "Male":
+                gender_text = "He/him"
+                avartar_url = "https://avatar.iran.liara.run/public/boy"
+            
+            st.markdown(
+                card_template.format(
+                    avartar_url, 
+                    filtered_data["Name"][idx], 
+                    gender_text,
+                    filtered_data["IAEA Profession"][idx], 
+                    filtered_data["Nationality"][idx], 
+                    filtered_data["Pre-IAEA Work Experience"][idx], 
+
+                    "Some brief introduction text to introduce the staff's portfolio. " 
+                    ), 
+                    unsafe_allow_html=True
+                )
+
+
 #######################
 # Plots
 
@@ -115,8 +173,8 @@ def make_donut(input_response, input_text, input_color):
 
 # with col[0]:
 
-## gender
 if len(filtered_data):
+    ## gender
     st.markdown('### Diversity')
     gender_distribution = filtered_data['Gender'].value_counts()
     female_portion = gender_distribution.get("Female", 0)
