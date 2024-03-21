@@ -36,6 +36,10 @@ css ='''
     [data-testid="stSidebar"] {
         display: none;
     }
+
+    button[data-baseweb="tab"] > div > p {
+        font-size: 24px
+    }
 </style>
 '''
 st.markdown(css, unsafe_allow_html=True)
@@ -96,6 +100,8 @@ def style_button(tab_idx:int, n_element:int, color:str, size: int):
     button.style.height = `{size}px`;
     button.style.borderRadius = '50%'; 
     button.style.color = 'white'
+    button.querySelector('p').style.fontSize = '22px'
+
 
     button.style.position = 'relative';
     button.style.top = '10px';
@@ -125,7 +131,7 @@ with tab1:
 
     # Calculate proportions
     min_count, max_count = df_diversity['Count'].min(), df_diversity['Count'].max()
-    range_min, range_max = 120, 200
+    range_min, range_max = 150, 300
 
     # Apply linear interpolation to map the counts to your desired range
     df_diversity['Size'] = df_diversity['Count'].apply(
@@ -167,7 +173,10 @@ with tab2:
                         color="count",
                         color_continuous_scale=selected_color_theme,
                         hover_name="Nationality",
-                        projection="natural earth")
+                        projection="natural earth",
+                        width=1200, #need to use both width and height to set size
+                        height=600
+                        )
     choropleth.update_layout(geo=dict(showcoastlines=True))
     st.plotly_chart(choropleth, use_container_width=True)
 
@@ -182,7 +191,7 @@ with tab3:
 
     # Calculate proportions
     min_count, max_count = df_profession['Count'].min(), df_profession['Count'].max()
-    range_min, range_max = 120, 200
+    range_min, range_max = 250, 300
 
     # Apply linear interpolation to map the counts to your desired range
     df_profession['Size'] = df_profession['Count'].apply(
