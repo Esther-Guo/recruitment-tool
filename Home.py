@@ -152,6 +152,7 @@ with tab1:
                 style_button(0, i, RAINBOW_COLORS[i], size_value)
                 if btn:
                     st.session_state['generational'] = generation
+                    st.session_state['profession'] = ''
                     st.switch_page("pages/Staff_Details.py")
 
 
@@ -208,6 +209,7 @@ with tab3:
                 style_button(2, i, RAINBOW_COLORS[i], size_value)
                 if btn:
                     st.session_state['profession'] = profession
+                    st.session_state['generational'] = ''
                     st.switch_page("pages/Staff_Details.py")
 
 

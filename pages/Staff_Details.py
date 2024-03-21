@@ -3,7 +3,10 @@ import streamlit as st
 
 df_overview = pd.read_csv('data/staff-info.csv')
 filtered_data = df_overview.copy()
-filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
+if st.session_state['generational']:
+    filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
+else:
+    filtered_data = filtered_data[filtered_data['IAEA Profession'] == st.session_state['profession']]
 filtered_data = filtered_data.reset_index(drop=True)
 
 cols = st.columns((1, 2, 2, 1))
@@ -22,7 +25,7 @@ for idx, staffId in enumerate(filtered_data["Staff ID"]):
     if clicked:
         card_template = """
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-                    <div class="card text-white bg-dark mb-3" >
+                    <div class="card text-black bg-light mb-3" >
                         <div class="row no-gutters">
                             <div class="col-md-4">
                                 <img src="{}" class="w-50 m-5" alt="avatar">
@@ -58,3 +61,4 @@ for idx, staffId in enumerate(filtered_data["Staff ID"]):
                 ), 
                 unsafe_allow_html=True
             )
+st.session_state
