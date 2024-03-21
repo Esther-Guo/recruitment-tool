@@ -5,9 +5,35 @@ df_overview = pd.read_csv('data/staff-info.csv')
 filtered_data = df_overview.copy()
 if st.session_state['generational']:
     filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
+    st.title(f"Staff of {st.session_state['generational']}")
 else:
     filtered_data = filtered_data[filtered_data['IAEA Profession'] == st.session_state['profession']]
+    st.title(f"{st.session_state['profession']} Staff")
+
+default_option = "All"
+
+nationality_options = [default_option] + list(filtered_data['Nationality'].unique())
+nationality_filter = st.sidebar.selectbox("Select Nationality:", nationality_options, index=nationality_options.index(default_option))
+
+experience_options = [default_option] + list(filtered_data['Pre-IAEA Work Experience'].unique())
+experience_filter = st.sidebar.selectbox("Select Work Experience:", experience_options, index=experience_options.index(default_option))
+
+academic_options = [default_option] + list(filtered_data['Academic'].unique())
+academic_filter = st.sidebar.selectbox("Select Academic Background:", academic_options, index=academic_options.index(default_option))
+
+if nationality_filter != default_option:
+    filtered_data = filtered_data[filtered_data['Nationality'] == nationality_filter]
+
+if experience_filter != default_option:
+    filtered_data = filtered_data[filtered_data['Pre-IAEA Work Experience'] == experience_filter]
+
+if academic_filter != default_option:
+    filtered_data = filtered_data[filtered_data['Academic'] == academic_filter]
+
 filtered_data = filtered_data.reset_index(drop=True)
+
+# if len(filtered_data) == 0:
+#     st.write("no data")
 
 cols = st.columns((1, 2, 2, 1))
 fields = ["Staff ID", 'Name', 'IAEA Profession', "Action"]
@@ -61,4 +87,4 @@ for idx, staffId in enumerate(filtered_data["Staff ID"]):
                 ), 
                 unsafe_allow_html=True
             )
-st.session_state
+# st.session_state
