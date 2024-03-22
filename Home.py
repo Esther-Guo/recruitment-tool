@@ -48,7 +48,11 @@ st.markdown(css, unsafe_allow_html=True)
 # Load data
 df_overview = pd.read_csv('data/staff-info.csv')
 
-
+if 'generational' not in st.session_state:
+    st.session_state['generational'] = ''
+    
+if 'profession' not in st.session_state:
+    st.session_state['profession'] = ''
 #######################
 # Sidebar
 # with st.sidebar:

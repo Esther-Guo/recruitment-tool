@@ -3,10 +3,10 @@ import streamlit as st
 
 df_overview = pd.read_csv('data/staff-info.csv')
 filtered_data = df_overview.copy()
-if st.session_state['generational']:
+if st.session_state['generational'] != "":
     filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
     st.title(f"Staff of {st.session_state['generational']}")
-else:
+if st.session_state['profession'] != "":
     filtered_data = filtered_data[filtered_data['IAEA Profession'] == st.session_state['profession']]
     st.title(f"{st.session_state['profession']} Staff")
 
