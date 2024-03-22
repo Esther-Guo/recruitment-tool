@@ -33,6 +33,11 @@ RAINBOW_COLORS = [
 
 css ='''
 <style>
+    # .stApp {
+    #     background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    #     background-size: cover;
+    # }
+
     [data-testid="stSidebar"] {
         display: none;
     }
@@ -44,6 +49,30 @@ css ='''
 '''
 st.markdown(css, unsafe_allow_html=True)
 
+import base64
+
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+def set_gif_as_page_bg(png_file):
+    bin_str = get_base64_of_bin_file(png_file)
+    page_bg_img = '''
+    <style>
+    .stApp {
+    background-image: url("data:image/gif;base64,%s");
+    background-size: cover;
+    }
+    </style>
+    ''' % bin_str
+    
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+    return
+
+set_gif_as_page_bg('live_background.gif')
+# set_gif_as_page_bg('background.png')
+
 #######################
 # Load data
 df_overview = pd.read_csv('data/staff-info.csv')
@@ -54,32 +83,6 @@ if 'generational' not in st.session_state:
 if 'profession' not in st.session_state:
     st.session_state['profession'] = ''
 #######################
-# Sidebar
-# with st.sidebar:
-#     # Default selection for filters
-#     default_option = "All"
-
-#     nationality_options = [default_option] + list(df_overview['Nationality'].unique())
-#     nationality_filter = st.sidebar.selectbox("Select Nationality:", nationality_options, index=nationality_options.index(default_option))
-    
-#     profession_options = [default_option] + list(df_overview['IAEA Profession'].unique())
-#     profession_filter = st.sidebar.selectbox("Select Profession:", profession_options, index=profession_options.index(default_option))
-    
-#     academic_options = [default_option] + list(df_overview['Academic'].unique())
-#     academic_filter = st.sidebar.selectbox("Select Academic Background:", academic_options, index=academic_options.index(default_option))
-    
-#     # Filter data
-#     filtered_data = df_overview.copy()
-#     if nationality_filter != default_option:
-#         filtered_data = filtered_data[filtered_data['Nationality'] == nationality_filter]
-
-#     if profession_filter != default_option:
-#         filtered_data = filtered_data[filtered_data['IAEA Profession'] == profession_filter]
-
-#     if academic_filter != default_option:
-#         filtered_data = filtered_data[filtered_data['Academic'] == academic_filter]
-
-#     filtered_data = filtered_data.reset_index(drop=True)
 
 
 st.title('🏂 IAEA Department of Safeguards Dashboard')
@@ -175,9 +178,10 @@ with tab2:
                         locations="Nationality",
                         locationmode="country names",
                         color="count",
-                        color_continuous_scale=selected_color_theme,
+                        color_continuous_scale="redor",
                         hover_name="Nationality",
                         projection="natural earth",
+                        basemap_visible=False,
                         width=1200, #need to use both width and height to set size
                         height=600
                         )
