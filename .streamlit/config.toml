@@ -10,5 +10,5 @@ font = "monospace"
 # enableStaticServing = true
 
 [client]
-toolbarMode = "minimal"
-# toolbarMode = "auto"
+# toolbarMode = "minimal"
+toolbarMode = "auto"

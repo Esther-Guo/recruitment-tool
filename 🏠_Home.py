@@ -87,7 +87,7 @@ if 'profession' not in st.session_state:
 
 st.title('🏂 IAEA Department of Safeguards Dashboard')
 
-selected_color_theme = 'blues'
+# selected_color_theme = 'blues'
 
 def style_button(tab_idx:int, n_element:int, color:str, size: int):
     js = fr'''
@@ -166,7 +166,7 @@ with tab1:
                 if btn:
                     st.session_state['generational'] = generation
                     st.session_state['profession'] = ''
-                    st.switch_page("pages/Staff_Details.py")
+                    st.switch_page("pages/🌍_Staff_Details.py")
 
 
 
