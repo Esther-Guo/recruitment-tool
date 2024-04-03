@@ -157,17 +157,17 @@ if len(filtered_data):
             fig.update_layout(height=500, width=500) 
             st.plotly_chart(fig, use_container_width=True)
 
-            cols = st.columns(4)
+            # cols = st.columns(4)
 
-            for i, col in enumerate(cols):
-                with col:
-                    st.button(f"Button {i}", use_container_width=True)
-                    st.color_picker("Color the button", "#9988dd", key=f"color_{i}")
-                    # color_button(i, st.session_state[f"color_{i}"])
+            # for i, col in enumerate(cols):
+            #     with col:
+            #         st.button(f"Button {i}", use_container_width=True)
+            #         st.color_picker("Color the button", "#9988dd", key=f"color_{i}")
+            #         # color_button(i, st.session_state[f"color_{i}"])
 
-            "****"
-            "**Session state:**"
-            st.write(st.session_state)
+            # "****"
+            # "**Session state:**"
+            # st.write(st.session_state)
 
 
     # elif tabValue == "Nationality":

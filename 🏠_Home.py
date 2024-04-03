@@ -3,11 +3,10 @@
 import numpy
 import streamlit as st
 import pandas as pd
-import altair as alt
+# import altair as alt
 import plotly.express as px
-import streamlit_shadcn_ui as ui
-import plotly.graph_objects as go
-
+# import streamlit_shadcn_ui as ui
+# import plotly.graph_objects as go
 #######################
 # Page configuration
 st.set_page_config(
