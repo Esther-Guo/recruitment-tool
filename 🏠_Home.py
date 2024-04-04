@@ -32,10 +32,11 @@ RAINBOW_COLORS = [
 
 css ='''
 <style>
-    # .stApp {
-    #     background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-    #     background-size: cover;
-    # }
+    .stApp {
+        # background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        # background-size: cover;
+        background-color: #1a61b1
+    }
 
     [data-testid="stSidebar"] {
         display: none;
@@ -48,29 +49,29 @@ css ='''
 '''
 st.markdown(css, unsafe_allow_html=True)
 
-import base64
+## set image as background
+# import base64
 
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+# def get_base64_of_bin_file(bin_file):
+#     with open(bin_file, 'rb') as f:
+#         data = f.read()
+#     return base64.b64encode(data).decode()
 
-def set_gif_as_page_bg(png_file):
-    bin_str = get_base64_of_bin_file(png_file)
-    page_bg_img = '''
-    <style>
-    .stApp {
-    background-image: url("data:image/gif;base64,%s");
-    background-size: cover;
-    }
-    </style>
-    ''' % bin_str
+# def set_gif_as_page_bg(png_file):
+#     bin_str = get_base64_of_bin_file(png_file)
+#     page_bg_img = '''
+#     <style>
+#     .stApp {
+#     background-image: url("data:image/gif;base64,%s");
+#     background-size: cover;
+#     }
+#     </style>
+#     ''' % bin_str
     
-    st.markdown(page_bg_img, unsafe_allow_html=True)
-    return
+#     st.markdown(page_bg_img, unsafe_allow_html=True)
+#     return
 
-set_gif_as_page_bg('live_background.gif')
-# set_gif_as_page_bg('background.png')
+# set_gif_as_page_bg('live_background.gif')
 
 #######################
 # Load data
@@ -84,7 +85,7 @@ if 'profession' not in st.session_state:
 #######################
 
 
-st.title('🏂 IAEA Department of Safeguards Dashboard')
+st.title('Department of Safeguards Dashboard')
 
 # selected_color_theme = 'blues'
 
@@ -226,7 +227,7 @@ with tab3:
                 if btn:
                     st.session_state['profession'] = profession
                     st.session_state['generational'] = ''
-                    st.switch_page("pages/Staff_Details.py")
+                    st.switch_page("pages/🌍_Staff_Details.py")
 
 
 
@@ -242,8 +243,8 @@ with tab3:
 #######################
 
     
-# with st.expander('About', expanded=True):
-#     st.write('''
-#         - Data: [Department of Safeguards]().
-#         - :orange[**Diversity**]: staff are from varied backgrounds, education, career paths, and ages
-#         ''')
+with st.expander("testing", expanded=True):
+    st.write('''
+        - Data: [Department of Safeguards]().
+        - :orange[**Diversity**]: staff are from varied backgrounds, education, career paths, and ages
+        ''')

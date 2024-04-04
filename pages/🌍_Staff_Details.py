@@ -1,35 +1,37 @@
+from math import ceil
 import pandas as pd
 import streamlit as st
 
-import base64
+# import base64
 
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+# def get_base64_of_bin_file(bin_file):
+#     with open(bin_file, 'rb') as f:
+#         data = f.read()
+#     return base64.b64encode(data).decode()
 
-def set_png_as_page_bg(png_file):
-    bin_str = get_base64_of_bin_file(png_file)
-    page_bg_img = '''
-    <style>
-        .stApp {
-            background-image: url("data:image/png;base64,%s");
-            background-size: cover;
-        }
-    </style>
-    ''' % bin_str
+# def set_png_as_page_bg(png_file):
+#     bin_str = get_base64_of_bin_file(png_file)
+#     page_bg_img = '''
+#     <style>
+#         .stApp {
+#             background-image: url("data:image/png;base64,%s");
+#             background-size: cover;
+#         }
+#     </style>
+#     ''' % bin_str
     
-    st.markdown(page_bg_img, unsafe_allow_html=True)
-    return
+#     st.markdown(page_bg_img, unsafe_allow_html=True)
+#     return
 
-set_png_as_page_bg('background.png')
+# set_png_as_page_bg('background.png')
 
 css ='''
 <style>
-    # .stApp {
+    .stApp {
     #     background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     #     background-size: cover;
-    # }
+        background-color: #1a61b1
+    }
 
     [data-testid="stHorizontalBlock"] {
         align-items: center;
@@ -37,12 +39,13 @@ css ='''
     }
 
     [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #fff4ec;
+        # background-color: #fff4ec;
     }
 
     button[data-baseweb="tab"] > div > p {
         font-size: 24px
     }
+
 </style>
 '''
 st.markdown(css, unsafe_allow_html=True)
@@ -77,6 +80,49 @@ if academic_filter != default_option:
     filtered_data = filtered_data[filtered_data['Academic'] == academic_filter]
 
 filtered_data = filtered_data.reset_index(drop=True)
+numOfStaff = len(filtered_data)
+numOfRows =  ceil(numOfStaff/3)
+# st.write(filtered_data)
+
+
+card_template = """
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                    <div class="card text-dark bg-light mb-3" style="height: 300px">
+                        <img src="{}" class="card-img-top mx-auto mt-3" alt="avatar" style="width: 120px"> <!-- Adjusted class for centering and margin -->
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title">{}</h5>
+                            <p class="font-italic">{}</p>
+                        </div>
+                    </div>
+            """
+gender_text = "She/her"
+avartar_url = "https://avatar.iran.liara.run/public/girl"
+
+itemIdx = 0
+for rowIdx in range(0, numOfRows):
+    row = st.columns(3)
+    for colIdx in range(0, 3):
+        if itemIdx <= numOfStaff-1:
+            profile = row[colIdx].container(border=False)
+            staffDf = filtered_data.iloc[itemIdx]
+            if staffDf["Gender"] == "Male":
+                gender_text = "He/him"
+                avartar_url = "https://avatar.iran.liara.run/public/boy"
+            profile.markdown(
+                card_template.format(
+                    avartar_url, 
+                    staffDf["Name"], 
+                    staffDf["IAEA Profession"]
+                    ), 
+                    unsafe_allow_html=True
+                )
+            expander = profile.expander("More")
+            expander.markdown('''
+    The chart above shows some numbers I picked for you.
+    I rolled actual dice for these, so they're **guaranteed** to
+    be random.
+''')
+            itemIdx += 1
 
 # if len(filtered_data) == 0:
 #     st.write("no data")
