@@ -3,3 +3,4 @@ pandas
 altair
 plotly
 streamlit_shadcn_ui
+df_global_search

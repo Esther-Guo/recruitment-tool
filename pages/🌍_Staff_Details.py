@@ -1,6 +1,7 @@
 from math import ceil
 import pandas as pd
 import streamlit as st
+from  import DataFrameSearch
 
 # import base64
 
@@ -30,7 +31,7 @@ css ='''
     .stApp {
     #     background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     #     background-size: cover;
-        background-color: #1a61b1
+        background-color: #599fe6;
     }
 
     [data-testid="stHorizontalBlock"] {
@@ -55,29 +56,40 @@ filtered_data = df_overview.copy()
 if st.session_state['generational'] != "":
     filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
     st.title(f"Staff of {st.session_state['generational']}")
-if st.session_state['profession'] != "":
+elif st.session_state['profession'] != "":
     filtered_data = filtered_data[filtered_data['IAEA Profession'] == st.session_state['profession']]
     st.title(f"{st.session_state['profession']} Staff")
+else:
+    st.write(f"Searched result for: {st.session_state.search_text}")
+    with DataFrameSearch(
+        dataframe=filtered_data,
+        text_search=st.session_state.search_text,
+        # case_sensitive=case_sensitive,
+        # regex_search=is_regex,
+        # highlight_matches=highlight_match,
+    ) as df:
+        st.dataframe(data=df, use_container_width=True, hide_index=True)
+        filtered_data = df.data
 
-default_option = "All"
+# default_option = "All"
 
-nationality_options = [default_option] + list(filtered_data['Nationality'].unique())
-nationality_filter = st.sidebar.selectbox("Select Nationality:", nationality_options, index=nationality_options.index(default_option))
+# nationality_options = [default_option] + list(filtered_data['Nationality'].unique())
+# nationality_filter = st.sidebar.selectbox("Select Nationality:", nationality_options, index=nationality_options.index(default_option))
 
-experience_options = [default_option] + list(filtered_data['Pre-IAEA Work Experience'].unique())
-experience_filter = st.sidebar.selectbox("Select Work Experience:", experience_options, index=experience_options.index(default_option))
+# experience_options = [default_option] + list(filtered_data['Pre-IAEA Work Experience'].unique())
+# experience_filter = st.sidebar.selectbox("Select Work Experience:", experience_options, index=experience_options.index(default_option))
 
-academic_options = [default_option] + list(filtered_data['Academic'].unique())
-academic_filter = st.sidebar.selectbox("Select Academic Background:", academic_options, index=academic_options.index(default_option))
+# academic_options = [default_option] + list(filtered_data['Academic'].unique())
+# academic_filter = st.sidebar.selectbox("Select Academic Background:", academic_options, index=academic_options.index(default_option))
 
-if nationality_filter != default_option:
-    filtered_data = filtered_data[filtered_data['Nationality'] == nationality_filter]
+# if nationality_filter != default_option:
+#     filtered_data = filtered_data[filtered_data['Nationality'] == nationality_filter]
 
-if experience_filter != default_option:
-    filtered_data = filtered_data[filtered_data['Pre-IAEA Work Experience'] == experience_filter]
+# if experience_filter != default_option:
+#     filtered_data = filtered_data[filtered_data['Pre-IAEA Work Experience'] == experience_filter]
 
-if academic_filter != default_option:
-    filtered_data = filtered_data[filtered_data['Academic'] == academic_filter]
+# if academic_filter != default_option:
+#     filtered_data = filtered_data[filtered_data['Academic'] == academic_filter]
 
 filtered_data = filtered_data.reset_index(drop=True)
 numOfStaff = len(filtered_data)

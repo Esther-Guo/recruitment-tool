@@ -35,7 +35,7 @@ css ='''
     .stApp {
         # background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         # background-size: cover;
-        background-color: #1a61b1
+        background-color: #599fe6;
     }
 
     [data-testid="stSidebar"] {
@@ -43,7 +43,7 @@ css ='''
     }
 
     button[data-baseweb="tab"] > div > p {
-        font-size: 24px
+        font-size: 20px
     }
 </style>
 '''
@@ -122,73 +122,21 @@ def style_button(tab_idx:int, n_element:int, color:str, size: int):
 # Dashboard Main Panel
     
 
+search_text = st.text_input(
+        "Search", label_visibility="collapsed", placeholder="Search Staff"
+    )
+if search_text:
+    st.session_state['search_text'] = search_text
+    st.switch_page("pages/🌍_Staff_Details.py")
 
 # Tabs
-tab1, tab2, tab3 = st.tabs([':sunglasses: **Generational**', ':globe_with_meridians: **Nationality**', ':office: **IAEA Profession**']);
+# tab1, tab2, tab3 = st.tabs([':sunglasses: **Generational**', ':globe_with_meridians: **Nationality**', ':office: **IAEA Profession**']);
+tab1, tab2, tab3, tab4, tab5 = st.tabs(['**IAEA Profession**', '**Nationality**', '**Academic**', '**Pre-IAEA Work Experience**', '**Generational**'])
 
 # st.write("Selected:", tabValue)
+
+##### IAEA Profession
 with tab1:
-    diversity_distribution = df_overview['Generational'].value_counts(sort=False)
-    generations_list = diversity_distribution.index.tolist()
-
-    ## calculate bubble size
-    # Convert the Series to a DataFrame
-    df_diversity = diversity_distribution.reset_index()
-    df_diversity.columns = ['Generational', 'Count']
-
-    # Calculate proportions
-    min_count, max_count = df_diversity['Count'].min(), df_diversity['Count'].max()
-    range_min, range_max = 150, 300
-
-    # Apply linear interpolation to map the counts to your desired range
-    df_diversity['Size'] = df_diversity['Count'].apply(
-        lambda x: ((x - min_count) / (max_count - min_count)) * (range_max - range_min) + range_min
-        if max_count > min_count else range_min
-    )
-
-    row1 = st.columns(3)
-    row2 = st.columns(3)
-
-    # for col in row1 + row2:
-    #     tile = col.container(height=120)
-    #     tile.title(":balloon:")
-
-    for i, generation in enumerate(generations_list):
-            size_value = df_diversity.loc[df_diversity['Generational'] == generation, 'Size'].values[0].astype(numpy.int64)
-            if i<3:
-                tile = row1[i].container()
-            else:
-                tile = row2[i%3].container()
-            with tile:
-                btn = st.button(generation, use_container_width=True, key=generation)
-            # st.color_picker("Color the button", "#9988dd", key=f"color_{i}")
-                style_button(0, i, RAINBOW_COLORS[i], size_value)
-                if btn:
-                    st.session_state['generational'] = generation
-                    st.session_state['profession'] = ''
-                    st.switch_page("pages/🌍_Staff_Details.py")
-
-
-
-with tab2:
-    # st.markdown('### Nationality')
-    nationality_distribution = df_overview['Nationality'].value_counts().reset_index()
-    nationality_distribution.columns = ['Nationality', 'count']
-    choropleth = px.choropleth(nationality_distribution, 
-                        locations="Nationality",
-                        locationmode="country names",
-                        color="count",
-                        color_continuous_scale="redor",
-                        hover_name="Nationality",
-                        projection="natural earth",
-                        basemap_visible=False,
-                        width=1200, #need to use both width and height to set size
-                        height=600
-                        )
-    choropleth.update_layout(geo=dict(showcoastlines=True))
-    st.plotly_chart(choropleth, use_container_width=True)
-
-with tab3:
     profession_distribution = df_overview['IAEA Profession'].value_counts(sort=False)
     profession_list = profession_distribution.index.tolist()
 
@@ -223,14 +171,82 @@ with tab3:
             with tile:
                 btn = st.button(profession, use_container_width=True, key=profession)
             # st.color_picker("Color the button", "#9988dd", key=f"color_{i}")
-                style_button(2, i, RAINBOW_COLORS[i], size_value)
+                style_button(0, i, RAINBOW_COLORS[i], size_value)
                 if btn:
                     st.session_state['profession'] = profession
                     st.session_state['generational'] = ''
                     st.switch_page("pages/🌍_Staff_Details.py")
 
 
+##### Nationality
+with tab2:
+    # st.markdown('### Nationality')
+    nationality_distribution = df_overview['Nationality'].value_counts().reset_index()
+    nationality_distribution.columns = ['Nationality', 'count']
+    choropleth = px.choropleth(nationality_distribution, 
+                        locations="Nationality",
+                        locationmode="country names",
+                        color="count",
+                        color_continuous_scale="blues", # https://plotly.com/python/builtin-colorscales/
+                        hover_name="Nationality",
+                        projection="natural earth",
+                        basemap_visible=False,
+                        width=1200, #need to use both width and height to set size
+                        height=600
+                        )
+    choropleth.update_layout(geo=dict(showcoastlines=True))
+    st.plotly_chart(choropleth, use_container_width=True)
 
+#### 
+with tab3:
+    st.write("some filter")
+
+
+#### Pre-IAEA Work Experience
+with tab4:
+    st.write("some filter")
+
+#### Generational
+with tab5:
+    diversity_distribution = df_overview['Generational'].value_counts(sort=False)
+    generations_list = diversity_distribution.index.tolist()
+
+    ## calculate bubble size
+    # Convert the Series to a DataFrame
+    df_diversity = diversity_distribution.reset_index()
+    df_diversity.columns = ['Generational', 'Count']
+
+    # Calculate proportions
+    min_count, max_count = df_diversity['Count'].min(), df_diversity['Count'].max()
+    range_min, range_max = 150, 300
+
+    # Apply linear interpolation to map the counts to your desired range
+    df_diversity['Size'] = df_diversity['Count'].apply(
+        lambda x: ((x - min_count) / (max_count - min_count)) * (range_max - range_min) + range_min
+        if max_count > min_count else range_min
+    )
+
+    row1 = st.columns(3)
+    row2 = st.columns(3)
+
+    # for col in row1 + row2:
+    #     tile = col.container(height=120)
+    #     tile.title(":balloon:")
+
+    for i, generation in enumerate(generations_list):
+            size_value = df_diversity.loc[df_diversity['Generational'] == generation, 'Size'].values[0].astype(numpy.int64)
+            if i<3:
+                tile = row1[i].container()
+            else:
+                tile = row2[i%3].container()
+            with tile:
+                btn = st.button(generation, use_container_width=True, key=generation)
+            # st.color_picker("Color the button", "#9988dd", key=f"color_{i}")
+                style_button(4, i, RAINBOW_COLORS[i], size_value)
+                if btn:
+                    st.session_state['generational'] = generation
+                    st.session_state['profession'] = ''
+                    st.switch_page("pages/🌍_Staff_Details.py")
 
 
 
