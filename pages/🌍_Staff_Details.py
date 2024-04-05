@@ -1,7 +1,7 @@
 from math import ceil
 import pandas as pd
 import streamlit as st
-from  import DataFrameSearch
+from df_global_search import DataFrameSearch
 
 # import base64
 
