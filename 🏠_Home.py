@@ -87,6 +87,8 @@ if 'profession' not in st.session_state:
 if 'nationality' not in st.session_state:
     st.session_state['nationality'] = ''
 
+if 'search_text' not in st.sessin_state:
+    st.session_state['search_text'] = ''
 if st.session_state.search_text:
     st.session_state.search_text = ""
 #######################
