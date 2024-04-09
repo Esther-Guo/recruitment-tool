@@ -127,6 +127,58 @@ def style_button(tab_idx:int, n_element:int, color:str, size: int):
     '''
     st.components.v1.html(js, width=0, height=0)
 
+def add_pfp(tab_idx:int, n_element:int):
+    js = fr'''
+    <script>
+    // Find all tabs
+    const tabs = window.parent.document.querySelectorAll('[data-baseweb="tab-panel"]');
+    // Find all the buttons
+    var buttons = tabs[{tab_idx}].getElementsByClassName("stButton");
+    
+    // Select only one button
+    var button = buttons[{n_element}].getElementsByTagName("button")[0];
+
+    // Create image element
+    var img1 = document.createElement('img');
+    var img2 = document.createElement('img');
+    var img3 = document.createElement('img');
+
+    // Set the source of the image (replace with your image URL)
+    img1.src = 'https://majors.engin.umich.edu/wp-content/uploads/2019/08/ners-alum-kristine-madden.png';
+    img1.style.width =  `90px`;
+
+    img2.src = 'https://majors.engin.umich.edu/wp-content/uploads/2019/08/ners-alum-xiaojin-shen.png';
+    img2.style.width =  `60px`;
+
+    img3.src = 'https://majors.engin.umich.edu/wp-content/uploads/2019/09/ners-alum-joel-kulesza.png';
+    img3.style.width =  `70px`;
+
+    // Set the style of the image to position it relative to the button
+    img1.style.position = 'absolute'; // Position the image absolutely with respect to the button
+    img1.style.top = '20%'; // Adjust as needed
+    img1.style.left = '25%'; // Adjust as needed
+    img1.style.transform = 'translate(-50%, -50%)'; // Center the image relative to the button
+
+    img2.style.position = 'absolute'; // Position the image absolutely with respect to the button
+    img2.style.top = '15%'; // Adjust as needed
+    img2.style.left = '60%'; // Adjust as needed
+    img2.style.transform = 'translate(-50%, -50%)'; // Center the image relative to the button
+
+    img3.style.position = 'absolute'; // Position the image absolutely with respect to the button
+    img3.style.top = '90%'; // Adjust as needed
+    img3.style.left = '80%'; // Adjust as needed
+    img3.style.transform = 'translate(-50%, -50%)'; // Center the image relative to the button
+
+    // Append the image to the button
+    button.appendChild(img1);
+    button.appendChild(img2);
+    button.appendChild(img3);
+
+
+    </script>
+    '''
+    st.components.v1.html(js, width=0, height=0)
+
 ######################
 # Dashboard Main Panel
     
@@ -181,6 +233,8 @@ with tab1:
                 btn = st.button(profession, use_container_width=True, key=profession)
             # st.color_picker("Color the button", "#9988dd", key=f"color_{i}")
                 style_button(0, i, RAINBOW_COLORS[i], size_value)
+                if (i==0):
+                    add_pfp(0, i)
                 if btn:
                     st.session_state['profession'] = profession
                     st.session_state['generational'] = ''

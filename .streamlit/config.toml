@@ -4,7 +4,7 @@ primaryColor = "#F0F0F0"
 backgroundColor="#fff"
 secondaryBackgroundColor="#fff"
 textColor="#000"
-font = "monospace"
+font = "sans serif"
 
 [server]
 # enableStaticServing = true
