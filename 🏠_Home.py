@@ -1,5 +1,6 @@
 #######################
 # Import libraries
+from math import ceil
 import numpy
 import streamlit as st
 import pandas as pd
@@ -82,6 +83,12 @@ if 'generational' not in st.session_state:
     
 if 'profession' not in st.session_state:
     st.session_state['profession'] = ''
+
+if 'nationality' not in st.session_state:
+    st.session_state['nationality'] = ''
+
+if st.session_state.search_text:
+    st.session_state.search_text = ""
 #######################
 
 
@@ -197,14 +204,122 @@ with tab2:
     choropleth.update_layout(geo=dict(showcoastlines=True))
     st.plotly_chart(choropleth, use_container_width=True)
 
-#### 
-with tab3:
-    st.write("some filter")
+    nationality_options = list(df_overview['Nationality'].unique())
+    st.session_state["nationality"] = st.selectbox("Select Country", nationality_options, index=None)
+    if st.session_state["nationality"]:
+        st.switch_page("pages/🌍_Staff_Details.py")
 
+#### 
+card_template = """
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                    <div class="card text-dark bg-light mb-3" style="height: 250px">
+                        <img src="{}" class="card-img-top mx-auto mt-3" alt="avatar" style="width: 120px"> <!-- Adjusted class for centering and margin -->
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <p style="font-size: 20px">{}</p>
+                            <p>{}</p>
+                        </div>
+                    </div>
+            """
+gender_text = "She/her"
+avartar_url = "https://avatar.iran.liara.run/public/girl"
+
+detail_template = """
+                    <div style="display: flex; flex-direction: column;">
+                        <p>Nationality: {}</p>
+                        <p>Pre-IAEA Experience: {}</p>
+                        <p>Generational: {}</p>
+                    </div>
+            """
+
+with tab3:
+    col1, col2 = st.columns([1, 3])
+    filtered_data = df_overview.copy()
+
+    col1.subheader("Degree")
+    degree_options = list(df_overview['Academic'].unique())[:8]
+    for degree in degree_options:
+        degree_btn = col1.button(degree, key=degree)
+        if degree_btn:
+            filtered_data = filtered_data[filtered_data['Academic'] == degree]
+            filtered_data = filtered_data.reset_index(drop=True)
+    
+    numOfStaff = len(filtered_data)
+    numOfRows =  ceil(numOfStaff/3)
+
+    
+    with col2:
+        itemIdx = 0
+        for rowIdx in range(0, numOfRows):
+            row = st.columns(3)
+            for colIdx in range(0, 3):
+                if itemIdx <= numOfStaff-1:
+                    profile = row[colIdx].container(border=False)
+                    staffDf = filtered_data.iloc[itemIdx]
+                    if staffDf["Gender"] == "Male":
+                        gender_text = "He/him"
+                        avartar_url = "https://avatar.iran.liara.run/public/boy"
+                    profile.markdown(
+                        card_template.format(
+                            avartar_url, 
+                            staffDf["Name"], 
+                            staffDf["IAEA Profession"]
+                            ), 
+                            unsafe_allow_html=True
+                        )
+                    expander = profile.expander("More")
+                    expander.markdown(detail_template.format(
+                            staffDf["Nationality"], 
+                            staffDf["Pre-IAEA Work Experience"], 
+                            staffDf["Generational"]
+                            ), 
+                            unsafe_allow_html=True)
+                    itemIdx += 1
 
 #### Pre-IAEA Work Experience
 with tab4:
-    st.write("some filter")
+    col1, col2 = st.columns([1, 3])
+    filtered_data = df_overview.copy()
+
+    col1.subheader("Work Experience")
+    exp_options = list(df_overview['Pre-IAEA Work Experience'].unique())
+    # col1.write(exp_options)
+    for exp in exp_options:
+        exp_btn = col1.button(exp, key=exp)
+        if exp_btn:
+            filtered_data = filtered_data[filtered_data['Pre-IAEA Work Experience'] == exp]
+            filtered_data = filtered_data.reset_index(drop=True)
+    
+    numOfStaff = len(filtered_data)
+    numOfRows =  ceil(numOfStaff/3)
+
+    
+    with col2:
+        itemIdx = 0
+        for rowIdx in range(0, numOfRows):
+            row = st.columns(3)
+            for colIdx in range(0, 3):
+                if itemIdx <= numOfStaff-1:
+                    profile = row[colIdx].container(border=False)
+                    staffDf = filtered_data.iloc[itemIdx]
+                    if staffDf["Gender"] == "Male":
+                        gender_text = "He/him"
+                        avartar_url = "https://avatar.iran.liara.run/public/boy"
+                    profile.markdown(
+                        card_template.format(
+                            avartar_url, 
+                            staffDf["Name"], 
+                            staffDf["IAEA Profession"]
+                            ), 
+                            unsafe_allow_html=True
+                        )
+                    expander = profile.expander("More")
+                    expander.markdown(detail_template.format(
+                            staffDf["Nationality"], 
+                            staffDf["Pre-IAEA Work Experience"], 
+                            staffDf["Generational"]
+                            ), 
+                            unsafe_allow_html=True)
+                    itemIdx += 1
 
 #### Generational
 with tab5:
@@ -259,8 +374,8 @@ with tab5:
 #######################
 
     
-with st.expander("testing", expanded=True):
-    st.write('''
-        - Data: [Department of Safeguards]().
-        - :orange[**Diversity**]: staff are from varied backgrounds, education, career paths, and ages
-        ''')
+# with st.expander("testing", expanded=True):
+#     st.write('''
+#         - Data: [Department of Safeguards]().
+#         - :orange[**Diversity**]: staff are from varied backgrounds, education, career paths, and ages
+#         ''')

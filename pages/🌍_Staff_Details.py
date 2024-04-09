@@ -53,13 +53,7 @@ st.markdown(css, unsafe_allow_html=True)
 
 df_overview = pd.read_csv('data/staff-info.csv')
 filtered_data = df_overview.copy()
-if st.session_state['generational'] != "":
-    filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
-    st.title(f"Staff of {st.session_state['generational']}")
-elif st.session_state['profession'] != "":
-    filtered_data = filtered_data[filtered_data['IAEA Profession'] == st.session_state['profession']]
-    st.title(f"{st.session_state['profession']} Staff")
-else:
+if st.session_state.search_text:
     st.write(f"Searched result for: {st.session_state.search_text}")
     with DataFrameSearch(
         dataframe=filtered_data,
@@ -70,6 +64,17 @@ else:
     ) as df:
         st.dataframe(data=df, use_container_width=True, hide_index=True)
         filtered_data = df.data
+elif st.session_state['nationality']:
+    filtered_data = filtered_data[filtered_data['Nationality'] == st.session_state['nationality']]
+    st.title(f"Staff from {st.session_state['nationality']}")
+elif st.session_state['generational'] != "":
+    filtered_data = filtered_data[filtered_data['Generational'] == st.session_state['generational']]
+    st.title(f"Staff of {st.session_state['generational']}")
+elif st.session_state['profession'] != "":
+    filtered_data = filtered_data[filtered_data['IAEA Profession'] == st.session_state['profession']]
+    st.title(f"{st.session_state['profession']} Staff")
+else:
+    pass
 
 # default_option = "All"
 
