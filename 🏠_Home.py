@@ -1,7 +1,6 @@
 #######################
 # Import libraries
 from math import ceil
-from tkinter import Image
 import numpy
 import streamlit as st
 import pandas as pd
