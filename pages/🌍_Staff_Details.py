@@ -34,6 +34,10 @@ css ='''
         background-color: #599fe6;
     }
 
+    [data-testid="stSidebar"] {
+        display: none;
+    }
+
     [data-testid="stHorizontalBlock"] {
         align-items: start;
         
@@ -50,6 +54,11 @@ css ='''
 </style>
 '''
 st.markdown(css, unsafe_allow_html=True)
+
+# back to home
+back_btn = st.button("Back", type="secondary")
+if back_btn:
+    st.switch_page("🏠_Home.py")
 
 df_overview = pd.read_csv('data/staff-info.csv')
 filtered_data = df_overview.copy()

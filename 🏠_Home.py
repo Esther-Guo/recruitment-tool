@@ -34,8 +34,10 @@ RAINBOW_COLORS = [
 css ='''
 <style>
     .stApp {
-        # background-image: url("https://plus.unsplash.com/premium_photo-1667811946004-7c03b11fcd11?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-        # background-size: cover;
+        background-image: url("https://upload.wikimedia.org/wikipedia/commons/1/1e/International_Atomic_Energy_Agency_Logo.svg");
+        background-position: 95% 50px; /* Positions the background image at the top right corner */
+        background-repeat: no-repeat; 
+        background-size: 100px 100px;
         background-color: #599fe6;
     }
 
@@ -243,7 +245,6 @@ with tab1:
 
 ##### Nationality
 with tab2:
-    # st.markdown('### Nationality')
     nationality_distribution = df_overview['Nationality'].value_counts().reset_index()
     nationality_distribution.columns = ['Nationality', 'count']
     choropleth = px.choropleth(nationality_distribution, 
@@ -254,8 +255,8 @@ with tab2:
                         hover_name="Nationality",
                         projection="natural earth",
                         basemap_visible=False,
-                        width=1200, #need to use both width and height to set size
-                        height=600
+                        width=1000, #need to use both width and height to set size
+                        height=500
                         )
     choropleth.update_layout(geo=dict(showcoastlines=True))
     st.plotly_chart(choropleth, use_container_width=True)
@@ -287,6 +288,7 @@ detail_template = """
                     </div>
             """
 
+##### Academic
 with tab3:
     col1, col2 = st.columns([1, 3])
     filtered_data = df_overview.copy()
