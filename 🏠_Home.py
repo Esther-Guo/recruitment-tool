@@ -1,6 +1,7 @@
 #######################
 # Import libraries
 from math import ceil
+from tkinter import Image
 import numpy
 import streamlit as st
 import pandas as pd
@@ -48,9 +49,11 @@ css ='''
     button[data-baseweb="tab"] > div > p {
         font-size: 20px
     }
+
 </style>
 '''
 st.markdown(css, unsafe_allow_html=True)
+
 
 ## set image as background
 # import base64
@@ -98,7 +101,6 @@ if st.session_state.search_text:
 
 st.title('Department of Safeguards Dashboard')
 
-# selected_color_theme = 'blues'
 
 def style_button(tab_idx:int, n_element:int, color:str, size: int):
     js = fr'''
@@ -243,28 +245,6 @@ with tab1:
                     st.switch_page("pages/🌍_Staff_Details.py")
 
 
-##### Nationality
-with tab2:
-    nationality_distribution = df_overview['Nationality'].value_counts().reset_index()
-    nationality_distribution.columns = ['Nationality', 'count']
-    choropleth = px.choropleth(nationality_distribution, 
-                        locations="Nationality",
-                        locationmode="country names",
-                        color="count",
-                        color_continuous_scale="blues", # https://plotly.com/python/builtin-colorscales/
-                        hover_name="Nationality",
-                        projection="natural earth",
-                        basemap_visible=False,
-                        width=1000, #need to use both width and height to set size
-                        height=500
-                        )
-    choropleth.update_layout(geo=dict(showcoastlines=True))
-    st.plotly_chart(choropleth, use_container_width=True)
-
-    nationality_options = list(df_overview['Nationality'].unique())
-    st.session_state["nationality"] = st.selectbox("Select Country", nationality_options, index=None)
-    if st.session_state["nationality"]:
-        st.switch_page("pages/🌍_Staff_Details.py")
 
 #### 
 card_template = """
@@ -287,6 +267,105 @@ detail_template = """
                         <p>Generational: {}</p>
                     </div>
             """
+
+def style_country_btn(n_element:int, flag_url):
+    js = fr'''
+    <script>
+    // Find all tabs
+    const tabs = window.parent.document.querySelectorAll('[data-baseweb="tab-panel"]');
+    // Find all the buttons
+    var buttons = tabs[1].getElementsByClassName("stButton");
+    
+    // Select only one button
+    var button = buttons[{n_element}].getElementsByTagName("button")[0];
+
+    // Modify the button
+    button.style.backgroundImage = `url({flag_url})`;
+    button.style.backgroundRepeat = 'no-repeat';
+    button.style.backgroundSize = '150px 100px';
+    button.style.border = 'none';
+    button.style.width =  `150px`;
+    button.style.height = `100px`;
+
+    </script>
+    '''
+    st.components.v1.html(js, width=0, height=0)
+
+country_flag_df = pd.read_csv('data/countries_continents_codes_flags_url.csv')
+def get_flag(country_code):
+    result = country_flag_df.loc[country_flag_df['alpha-3'] == country_code, 'image_url'].iloc[0]
+    
+    # If no match is found, return None
+    return result if not pd.isna(result) else None
+
+##### Nationality
+with tab2:
+    col1, col2 = st.columns([1, 3])
+    filtered_data = df_overview.copy()
+
+    col1.subheader("Country")
+    country_options = list(df_overview['Nationality'].unique())
+    for i, country in enumerate(country_options):
+        country_btn = col1.button(country, key=country)
+        courtry_iso = df_overview.loc[df_overview['Nationality'] == country, 'iso_alpha'].iloc[0]
+        flag_url = get_flag(courtry_iso)
+        # st.write(flag_url)
+        style_country_btn(i, flag_url)
+        if country_btn:
+            filtered_data = filtered_data[filtered_data['Nationality'] == country]
+            filtered_data = filtered_data.reset_index(drop=True)
+    
+    numOfStaff = len(filtered_data)
+    numOfRows =  ceil(numOfStaff/3)
+
+    with col2:
+        itemIdx = 0
+        for rowIdx in range(0, numOfRows):
+            row = st.columns(3)
+            for colIdx in range(0, 3):
+                if itemIdx <= numOfStaff-1:
+                    profile = row[colIdx].container(border=False)
+                    staffDf = filtered_data.iloc[itemIdx]
+                    if staffDf["Gender"] == "Male":
+                        gender_text = "He/him"
+                        avartar_url = "https://avatar.iran.liara.run/public/boy"
+                    profile.markdown(
+                        card_template.format(
+                            avartar_url, 
+                            staffDf["Name"], 
+                            staffDf["IAEA Profession"]
+                            ), 
+                            unsafe_allow_html=True
+                        )
+                    expander = profile.expander("More")
+                    expander.markdown(detail_template.format(
+                            staffDf["Nationality"], 
+                            staffDf["Pre-IAEA Work Experience"], 
+                            staffDf["Generational"]
+                            ), 
+                            unsafe_allow_html=True)
+                    itemIdx += 1
+    #### map + selection box
+    # nationality_distribution = df_overview['Nationality'].value_counts().reset_index()
+    # nationality_distribution.columns = ['Nationality', 'count']
+    # choropleth = px.choropleth(nationality_distribution, 
+    #                     locations="Nationality",
+    #                     locationmode="country names",
+    #                     color="count",
+    #                     color_continuous_scale="blues", # https://plotly.com/python/builtin-colorscales/
+    #                     hover_name="Nationality",
+    #                     projection="natural earth",
+    #                     basemap_visible=False,
+    #                     width=1000, #need to use both width and height to set size
+    #                     height=500
+    #                     )
+    # choropleth.update_layout(geo=dict(showcoastlines=True))
+    # st.plotly_chart(choropleth, use_container_width=True)
+
+    # nationality_options = list(df_overview['Nationality'].unique())
+    # st.session_state["nationality"] = st.selectbox("Select Country", nationality_options, index=None)
+    # if st.session_state["nationality"]:
+    #     st.switch_page("pages/🌍_Staff_Details.py")
 
 ##### Academic
 with tab3:

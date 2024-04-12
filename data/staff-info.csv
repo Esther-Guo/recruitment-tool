@@ -10,7 +10,7 @@ Staff ID,Name,Gender,IAEA Profession,Nationality,iso_alpha,Academic,Pre-IAEA Wor
 1009,Maria Santos,Female,Information Analysts,Brazil,BRA,Library Science,NGO,Baby Boomers
 1010,Mustafa Hassan,Male,Policy&Management Coordination,Egypt,EGY,Political Science,Government,Generation X
 1011,Sophie Dupont,Female,Inspectors,France,FRA,Nuclear Engineering,Nuclear Energy,Millennials
-1012,Kim Min-ji,Female,Information Technology,South Korea,KOR,Software Engineering,Health,Generation Z
+1012,Kim Min-ji,Female,Information Technology,South Korea,PRK,Software Engineering,Health,Generation Z
 1013,Alexander Ivanov,Male,Laboratory Specialists,Russia,RUS,Biochemistry,Academia,Generation X
 1014,Li Wei,Female,Information Analysts,China,CHN,Data Science,NGO,Generation Y
 1015,Lisa Müller,Female,Policy&Management Coordination,Germany,DEU,Public Policy,Government,Baby Boomers
@@ -20,7 +20,7 @@ Staff ID,Name,Gender,IAEA Profession,Nationality,iso_alpha,Academic,Pre-IAEA Wor
 1019,Ana Silva,Female,Information Analysts,Brazil,BRA,Information Systems,NGO,Generation X
 1020,Ahmed Mahmoud,Male,Policy&Management Coordination,Egypt,EGY,Management,Government,Millennials
 1021,Sarah Dubois,Female,Inspectors,France,FRA,Nuclear Physics,Nuclear Energy,Baby Boomers
-1022,Park Joon-ho,Male,Information Technology,South Korea,KOR,Information Technology,NGO,Generation Z
+1022,Park Joon-ho,Male,Information Technology,South Korea,PRK,Information Technology,NGO,Generation Z
 1023,Ivan Petrov,Male,Laboratory Specialists,Russia,RUS,Chemistry,Academia,Generation Y
 1024,Wang Lei,Male,Information Analysts,China,CHN,Computer Engineering,Health,Generation X
 1025,Maria Garcia,Female,Policy&Management Coordination,Spain,ESP,Economics,Government,Generation Z
